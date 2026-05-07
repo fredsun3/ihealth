@@ -1,65 +1,134 @@
-# 项目上下文
+# HIV 预防与养生科普平台 - 项目规范
 
-### 版本技术栈
+## 1. 项目概述
+
+**项目名称**: HIV 预防与养生科普平台  
+**项目类型**: 健康科普网站  
+**核心功能**: 提供 HIV 预防、中西医治疗、养生长寿等健康知识的科普教育平台  
+**目标用户**: 普通大众、患者及家属、健康教育工作者
+
+## 2. 技术栈
 
 - **Framework**: Next.js 16 (App Router)
 - **Core**: React 19
 - **Language**: TypeScript 5
 - **UI 组件**: shadcn/ui (基于 Radix UI)
 - **Styling**: Tailwind CSS 4
+- **Icons**: Lucide React
 
-## 目录结构
+## 3. 页面结构
+
+### 3.1 路由结构
 
 ```
-├── public/                 # 静态资源
-├── scripts/                # 构建与启动脚本
-│   ├── build.sh            # 构建脚本
-│   ├── dev.sh              # 开发环境启动脚本
-│   ├── prepare.sh          # 预处理脚本
-│   └── start.sh            # 生产环境启动脚本
-├── src/
-│   ├── app/                # 页面路由与布局
-│   ├── components/ui/      # Shadcn UI 组件库
-│   ├── hooks/              # 自定义 Hooks
-│   ├── lib/                # 工具库
-│   │   └── utils.ts        # 通用工具函数 (cn)
-│   └── server.ts           # 自定义服务端入口
-├── next.config.ts          # Next.js 配置
-├── package.json            # 项目依赖管理
-└── tsconfig.json           # TypeScript 配置
+/                    - 首页
+/prevention          - HIV 预防知识
+/western-medicine    - 西医治疗
+/traditional-chinese  - 中医治疗
+/health-longevity    - 养生长寿
+/faq                 - 科普问答
 ```
 
-- 项目文件（如 app 目录、pages 目录、components 等）默认初始化到 `src/` 目录下。
+### 3.2 页面说明
 
-## 包管理规范
+- **首页**: 平台概览、快速导航入口、核心科普内容展示
+- **HIV 预防**: 传播途径、预防措施、检测知识、安全性行为指导
+- **西医治疗**: 抗逆转录病毒治疗（ART）、药物种类、副作用管理、治疗指南
+- **中医治疗**: 中医药在 HIV 治疗中的应用、调理方法、中药知识
+- **养生长寿**: 营养饮食、运动健身、心理健康、生活方式指导
+- **科普问答**: 常见问题解答、互动问答、健康自测
 
-**仅允许使用 pnpm** 作为包管理器，**严禁使用 npm 或 yarn**。
-**常用命令**：
-- 安装依赖：`pnpm add <package>`
-- 安装开发依赖：`pnpm add -D <package>`
-- 安装所有依赖：`pnpm install`
-- 移除依赖：`pnpm remove <package>`
+## 4. 设计规范
 
-## 开发规范
+### 4.1 色彩方案
 
-### 编码规范
+- **主色调**: 医疗健康主题的青绿色 (#0D9488) - 代表健康、希望
+- **辅助色**: 温暖的橙黄色 (#F59E0B) - 代表关怀、活力
+- **背景色**: 浅灰白色 (#F8FAFC) - 干净、专业
+- **文字色**: 深灰黑色 (#1E293B) - 易读、清晰
 
-- 默认按 TypeScript `strict` 心智写代码；优先复用当前作用域已声明的变量、函数、类型和导入，禁止引用未声明标识符或拼错变量名。
-- 禁止隐式 `any` 和 `as any`；函数参数、返回值、解构项、事件对象、`catch` 错误在使用前应有明确类型或先完成类型收窄，并清理未使用的变量和导入。
+### 4.2 字体规范
 
-### next.config 配置规范
+- **标题**: Inter, system-ui - 清晰、现代
+- **正文**: Inter, system-ui - 易读、专业
 
-- 配置的路径不要写死绝对路径，必须使用 path.resolve(__dirname, ...)、import.meta.dirname 或 process.cwd() 动态拼接。
+### 4.3 组件使用
 
-### Hydration 问题防范
+- 卡片式布局展示科普内容
+- 手风琴组件展示 FAQ
+- 标签页切换不同板块内容
+- 进度条展示信息完整度
 
-1. 严禁在 JSX 渲染逻辑中直接使用 typeof window、Date.now()、Math.random() 等动态数据。**必须使用 'use client' 并配合 useEffect + useState 确保动态内容仅在客户端挂载后渲染**；同时严禁非法 HTML 嵌套（如 <p> 嵌套 <div>）。
-2. **禁止使用 head 标签**，优先使用 metadata，详见文档：https://nextjs.org/docs/app/api-reference/functions/generate-metadata
-   1. 三方 CSS、字体等资源可在 `globals.css` 中顶部通过 `@import` 引入或使用 next/font
-   2. preload, preconnect, dns-prefetch 通过 ReactDOM 的 preload、preconnect、dns-prefetch 方法引入
-   3. json-ld 可阅读 https://nextjs.org/docs/app/guides/json-ld
+## 5. 开发规范
 
-## UI 设计与组件规范 (UI & Styling Standards)
+### 5.1 编码规范
 
-- 模板默认预装核心组件库 `shadcn/ui`，位于`src/components/ui/`目录下
-- Next.js 项目**必须默认**采用 shadcn/ui 组件、风格和规范，**除非用户指定用其他的组件和规范。**
+- TypeScript strict 模式
+- 禁止隐式 any
+- 函数参数和返回值必须有明确类型
+- 使用 shadcn/ui 组件库
+- 响应式设计，适配移动端和桌面端
+
+### 5.2 Hydration 防范
+
+- 动态内容使用 'use client' + useEffect + useState
+- 禁止在 JSX 中直接使用 Date.now()、Math.random() 等
+
+### 5.3 SEO 优化
+
+- 使用 Next.js Metadata API
+- 每页设置独立的 title 和 description
+- 使用语义化 HTML 标签
+
+## 6. 目录结构
+
+```
+src/
+├── app/
+│   ├── layout.tsx          # 全局布局
+│   ├── page.tsx            # 首页
+│   ├── globals.css         # 全局样式
+│   ├── prevention/         # HIV 预防页面
+│   ├── western-medicine/   # 西医治疗页面
+│   ├── traditional-chinese/# 中医治疗页面
+│   ├── health-longevity/   # 养生长寿页面
+│   └── faq/                # 科普问答页面
+├── components/
+│   ├── layout/             # 布局组件
+│   │   ├── header.tsx
+│   │   ├── footer.tsx
+│   │   └── mobile-nav.tsx
+│   └── shared/            # 共享组件
+│       ├── content-card.tsx
+│       ├── info-section.tsx
+│       └── nav-link.tsx
+└── lib/
+    └── utils.ts            # 工具函数
+```
+
+## 7. 内容规范
+
+### 7.1 科普内容原则
+
+- **准确性**: 所有医疗信息必须基于权威来源
+- **通俗性**: 用大众能理解的语言解释专业知识
+- **中立性**: 客观呈现中西医不同观点
+- **及时性**: 更新最新的治疗方法和研究成果
+
+### 7.2 免责声明
+
+每个页面底部必须包含健康免责声明
+
+## 8. 测试验证
+
+- [x] TypeScript 类型检查通过
+- [x] ESLint 代码规范检查通过
+- [x] 服务启动成功（5000 端口）
+- [x] 响应式布局测试通过
+- [x] 页面导航测试通过
+
+## 9. 部署信息
+
+- **开发端口**: 5000
+- **生产构建**: pnpm build
+- **生产启动**: pnpm start
