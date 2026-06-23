@@ -132,3 +132,16 @@ src/
 - **开发端口**: 5000
 - **生产构建**: pnpm build
 - **生产启动**: pnpm start
+- **GitHub Pages**: https://fredsun3.github.io/ihealth/
+
+## 10. GitHub Pages 部署
+
+项目已配置自动部署到 GitHub Pages，每次推送到 main 分支会自动触发部署流程。
+
+### 部署配置
+- 静态导出: `output: 'export'`
+- 基础路径: `basePath: '/ihealth'`
+- Workflow: `.github/workflows/deploy.yml`
+
+### 手动部署触发
+在 GitHub 仓库的 Actions 页面可以手动触发部署。
